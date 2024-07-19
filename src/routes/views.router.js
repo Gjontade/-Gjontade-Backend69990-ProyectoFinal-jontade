@@ -69,7 +69,7 @@ router.get("/carts/:cid", async (req, res) => {
 			}
 
 			const productosEnCarrito = carrito.products.map(item => ({
-					product: item.product,
+					product: item.product.toObject(),
 					quantity: item.quantity
 			}));
 

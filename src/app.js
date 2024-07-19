@@ -17,7 +17,15 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.static("./src/public"));
 
 // Configuracion Express-Handlebars:
-app.engine("handlebars", engine());
+app.engine(
+	"handlebars",
+	engine({
+		runtimeOptions: {
+			allowProtoMethodsByDefault: true,
+			allowProtoMethodsByDefault: true,
+		},
+	})
+);
 app.set("view engine", "handlebars");
 app.set("views", "./src/views");
 
@@ -26,14 +34,10 @@ const httpServer = app.listen(PUERTO, () => {
 	console.log(`Listening in port: http://localhost:${PUERTO}`);
 });
 
-// Ruta productos
+// Rutas:
 app.use("/api/products", productosRouter);
-
-// Ruta carritos
 app.use("/api/carts", carritoRouter);
-
 app.use("/", viewsRouter);
-
 // Ruta inexistente
 app.get("*", (req, res) => {
 	res.send("ERROR: Esta ruta no esta definida.");

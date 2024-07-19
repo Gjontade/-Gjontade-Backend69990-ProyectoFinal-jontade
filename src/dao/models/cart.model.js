@@ -16,11 +16,12 @@ const cartSchema = new mongoose.Schema({
 	],
 });
 
+// Middleware Pre:
 cartSchema.pre("findOne", function (next) {
-	this.populate("products.product", "_id name price");
+	this.populate("products.product", "_id title price");
 	next();
 });
 
-const CartModel = mongoose.model("carts", cartSchema);
+const CartModel = mongoose.model("cart", cartSchema);
 
 export default CartModel;

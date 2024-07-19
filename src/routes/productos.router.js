@@ -7,51 +7,43 @@ const productManager = new ProductManager();
 // Devuelve el listado de productos:
 router.get("/", async (req, res) => {
 	try {
-		const { limit = 10, page = 1, sort, query } = req.query;
+		const {limit = 5, page = 1, sort, query} = req.query;
 
+		// Convertir limit y page a números enteros
+		const limitNumber = parseInt(limit) || 5;
+		const pageNumber = parseInt(page) || 1;
+
+		// Configurar sort
+		const sortOption =
+			sort === "asc" ? "price" : sort === "desc" ? "-price" : undefined;
+
+		// consultar productos
 		const productos = await productManager.getProducts({
-				limit: parseInt(limit),
-				page: parseInt(page),
-				sort,
-				query,
+			limit: limitNumber,
+			page: pageNumber,
+			sort: sortOption,
+			query,
 		});
 
 		res.json({
-				status: 'success',
-				payload: productos,
-				totalPages: productos.totalPages,
-				prevPage: productos.prevPage,
-				nextPage: productos.nextPage,
-				page: productos.page,
-				hasPrevPage: productos.hasPrevPage,
-				hasNextPage: productos.hasNextPage,
-				prevLink: productos.hasPrevPage ? `/api/products?limit=${limit}&page=${productos.prevPage}&sort=${sort}&query=${query}` : null,
-				nextLink: productos.hasNextPage ? `/api/products?limit=${limit}&page=${productos.nextPage}&sort=${sort}&query=${query}` : null,
+			status: "success",
+			payload: productos.docs,
+			totalPages: productos.totalPages,
+			prevPage: productos.prevPage,
+			nextPage: productos.nextPage,
+			page: productos.page,
+			hasPrevPage: productos.hasPrevPage,
+			hasNextPage: productos.hasNextPage,
+			prevLink: productos.hasPrevPage? `/api/products?limit=${limit}&page=${productos.prevPage}&sort=${sort || ""}&query=${query || ""}`: null,
+			nextLink: productos.hasNextPage? `/api/products?limit=${limit}&page=${productos.nextPage}&sort=${sort || ""}&query=${query || ""}`: null,
 		});
-
-} catch (error) {
+	} catch (error) {
 		console.error("Error al obtener productos", error);
 		res.status(500).json({
-				status: 'error',
-				error: "Error interno del servidor"
+			status: "error",
+			error: "Error interno del servidor",
 		});
-}
-	// try {
-	// 	//const {limit = 10, page = 1, sort, query} = req.query;
-	// 	const limit = req.query.limit;
-	// 	const products = await productManager.getProducts();
-
-	// 	if (limit) {
-	// 		res.json(products.slice(0, limit));
-	// 	} else {
-	// 		res.json(products);
-	// 	}
-	// } catch (error) {
-	// 	console.error("Error al obtener los productos.", error);
-	// 	res.status(500).json({
-	// 		error: "Error interno del servidor.",
-	// 	});
-	// }
+	}
 });
 
 // Retorna un producto especifico por ID:

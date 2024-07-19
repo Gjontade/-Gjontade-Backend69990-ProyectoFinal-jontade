@@ -1,4 +1,4 @@
-import ProductModel from "../fs/data/product.model.js";
+import ProductModel from "../models/product.model.js";
 
 class ProductManager {
 	// Si las validaciones son exitosas, crea un nuevo producto con los datos proporcionados y un ID único:
@@ -46,7 +46,6 @@ class ProductManager {
 	}
 
 	// Lee y devuelve todos los productos:
-	//
 	async getProducts({limit = 5, page = 1, sort, query} = {}) {
 		try {
 			const skip = (page - 1) * limit;
