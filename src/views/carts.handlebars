@@ -1,0 +1,16 @@
+<h1>Carrito de Compras</h1>
+
+{{#each productos}}
+	<div class="container-fluid">
+		<div class="d-flex justify-content-center">
+			<div class="card col-6">
+				<div class="card" id="contenedorProductos">
+					<p>Producto: {{this.product}}</p>
+					<p>Cantidad: {{this.quantity}}</p>
+				</div>
+			</div>
+		</div>
+	</div>
+  {{else}}
+        <li class="cart-item">El carrito está vacío.</li>
+{{/each}}

@@ -1,0 +1,41 @@
+<h1>Productos</h1>
+
+{{#each productos}}
+	<div class="container-fluid">
+		<div class="d-flex justify-content-center">
+			<div class="card col-6">
+				<div class="card" id="contenedorProductos">
+					<h3 class="card-title text-center">{{title}}</h3>
+					<p class="card-text text-center">{{_id}}</p>
+					<p class="card-text text-center">{{description}}</p>
+					<p class="card-text text-center precio">Price: ${{price}}</p>
+					<p class="card-text text-center">Category: {{category}}</p>
+					<button class="btn btn-outline-info"><a href="#">Detalle</a></button>
+					<br>
+					<button class="btn btn-outline-info">Agregar al Carrito</button>
+				</div>
+			</div>
+		</div>
+	</div>
+{{/each}}
+
+<div class="container-fluid">
+	<div class="d-flex justify-content-center">
+		{{#if hasPrevPage}}
+			<a
+				href="/products?page={{prevPage}}"
+				class="btn btn-outline-info"
+			>Anterior</a>
+		{{/if}}
+		{{#if hasNextPage}}
+			<a
+				href="/products?page={{nextPage}}"
+				class="btn btn-outline-info"
+			>Siguiente</a>
+		{{/if}}
+	</div>
+</div>
+<br>
+<div class="container-fluid d-flex justify-content-center">
+	<p>Pagina {{currentPage}} de {{totalPages}}</p>
+</div>
